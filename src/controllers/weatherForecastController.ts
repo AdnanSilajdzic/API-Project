@@ -10,10 +10,15 @@ interface RequestBody {
 //interface for response
 interface ResponseBody {
   dayOneTemperature: string;
+  dayOneWeather: string;
   dayTwoTemperature: string;
+  dayTwoWeather: string;
   dayThreeTemperature: string;
+  dayThreeWeather: string;
   dayFourTemperature: string;
+  dayFourWeather: string;
   dayFiveTemperature: string;
+  dayFiveWeather: string;
 }
 
 //inerface for error response
@@ -46,12 +51,17 @@ export default async function currentWeatherController(
     return res.status(data.cod).json({ error: data.message });
   }
 
-  //return temperature for next 5 days
+  //return temperature and weather for next 5 days
   res.json({
     dayOneTemperature: data.list[0].main.temp + "°C",
+    dayOneWeather: data.list[0].weather[0].main,
     dayTwoTemperature: data.list[1].main.temp + "°C",
+    dayTwoWeather: data.list[1].weather[0].main,
     dayThreeTemperature: data.list[2].main.temp + "°C",
+    dayThreeWeather: data.list[2].weather[0].main,
     dayFourTemperature: data.list[3].main.temp + "°C",
+    dayFourWeather: data.list[3].weather[0].main,
     dayFiveTemperature: data.list[4].main.temp + "°C",
+    dayFiveWeather: data.list[4].weather[0].main,
   });
 }
