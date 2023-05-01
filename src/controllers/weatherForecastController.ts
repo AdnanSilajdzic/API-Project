@@ -26,7 +26,7 @@ interface ErrorResponse {
   error: string;
 }
 
-export default async function currentWeatherController(
+export default async function weatherForecastController(
   req: Request<RequestBody>,
   res: Response<ResponseBody | ErrorResponse>
 ) {

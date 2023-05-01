@@ -1,10 +1,11 @@
 import express from "express";
 import currentWeatherController from "../controllers/currentWeatherController";
 import weatherForecastController from "../controllers/weatherForecastController";
+import weatherHistoryController from "../controllers/weatherHistoryController";
 const router = express.Router();
 
 router.post("/current", currentWeatherController);
 router.post("/forecast", weatherForecastController);
-router.post("/history", (req, res) => res.send("history weather"));
+router.post("/history", weatherHistoryController);
 
 export default router;
