@@ -8,26 +8,26 @@ This is a weather API utilizing OpenWeatherMap to get weather data across the gl
 
 First you must clone this repository:
 
-```http
+```
   git clone https://github.com/AdnanSilajdzic/API-Project.git
 ```
 After cloning the repository make sure to install all dependencies, by typing "npm install" in the terminal:
 
-```http
+```
   npm install
 ```
 Once all the dependencies are installed, you will require a .env file in order for the program to run correctly. Inside this .env file you will need an OpenWeather API key and an encrypted password, that was encrypted using bcrypt hash algorithm. A free tier OpenWeather API key will not suffice as it will not allow you to make requests for historic weather data. **ENV FILE HAS BEEN PROVIDED TO THE PROFESSOR ON TEAMS ASSIGNMENT**
-```http
+```
    API_KEY="[API KEY]"
    PASSWORD="[Encrypted password]"
 ```
 
 If you have added the env file correctly, you can run the server by typing npm run dev in the terminal
-```http
+```
   npm run dev
 ```
 If you see the following message, the server has started
-```http
+```
   App listening on port 4000
 ``` 
 
@@ -42,11 +42,11 @@ There are three API endpoints, but all three require the same parameters. They o
 ### Current weather
 
 This API endpoint is used for accessing the current weather conditions of a city. The API endpoint is:
-```http
+```
   http://localhost:4000/api/weather/current
 ```
 Sample response:
-```http
+```
 {
     "weatherData": {
         "temperature": "13.84°C",
@@ -60,11 +60,11 @@ Sample response:
 ### Weather forecast
 
 This API endpoint is used for accessing the weather forecast of a city. It will return the forecast for the next 5 days. The API endpoint is:
-```http
+```
   http://localhost:4000/api/weather/forecast
 ```
 Sample response:
-```http
+```
 {
     "responseData": {
         "dayOne": {
@@ -100,11 +100,11 @@ Sample response:
 ### Weather history
 
 This API endpoint is used for accessing the weather history of a city. It will return the history of the previous 5 days. The API endpoint is:
-```http
+```
   http://localhost:4000/api/weather/history
 ```
 Sample response:
-```http
+```
 {
     "responseData": {
         "dayOne": {
