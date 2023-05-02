@@ -3,30 +3,13 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import NodeCache from "node-cache";
 const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
+import { RequestBody } from "../models/RequestBody";
+import { ResponseBody } from "../models/ResponseBody";
 config();
-
-//interface for incoming request
-interface RequestBody {
-  city: string;
-  password: string;
-}
-
-//interface for response
-interface ResponseBody {
-  temperature: string;
-  humidity: string;
-  wind_speed: string;
-  weather: string;
-}
-
-//inerface for error response
-interface ErrorResponse {
-  error: string;
-}
 
 export default async function currentWeatherController(
   req: Request<{}, {}, RequestBody>,
-  res: Response<ResponseBody | ErrorResponse | any>
+  res: Response<ResponseBody | any>
 ) {
   //check if password is provided
   if (!req.body.password) {

@@ -3,51 +3,13 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import NodeCache from "node-cache";
 const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
+import { RequestBody } from "../models/RequestBody";
+import { ResponseBody, ResponseBodyHistory } from "../models/ResponseBody";
 config();
-
-//interface for incoming request
-interface RequestBody {
-  city: string;
-  password: string;
-}
-
-//interface for response
-interface ResponseBody {
-  dayOne: {
-    date: string;
-    temperature: string;
-    weather: string;
-  };
-  dayTwo: {
-    date: string;
-    temperature: string;
-    weather: string;
-  };
-  dayThree: {
-    date: string;
-    temperature: string;
-    weather: string;
-  };
-  dayFour: {
-    date: string;
-    temperature: string;
-    weather: string;
-  };
-  dayFive: {
-    date: string;
-    temperature: string;
-    weather: string;
-  };
-}
-
-//inerface for error response
-interface ErrorResponse {
-  error: string;
-}
 
 export default async function weatherHistoryController(
   req: Request<RequestBody>,
-  res: Response<ResponseBody | ErrorResponse | any>
+  res: Response<ResponseBody | any>
 ) {
   //check if password is provided
   if (!req.body.password) {
@@ -120,7 +82,7 @@ export default async function weatherHistoryController(
   const dayFive = new Date(data.list[95].dt * 1000);
 
   //response data variable
-  let responseData: ResponseBody = {
+  let responseData: ResponseBodyHistory = {
     dayOne: {
       date: dayOne.toDateString(),
       temperature: data.list[0].main.temp + "°C",
