@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT = 5000;
+const PORT = 4000;
 
 app.use("/api/weather", weatherRoutes);
 

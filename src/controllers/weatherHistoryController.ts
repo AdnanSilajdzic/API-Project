@@ -9,16 +9,31 @@ interface RequestBody {
 
 //interface for response
 interface ResponseBody {
-  dayOneTemperature: string;
-  dayOneWeather: string;
-  dayTwoTemperature: string;
-  dayTwoWeather: string;
-  dayThreeTemperature: string;
-  dayThreeWeather: string;
-  dayFourTemperature: string;
-  dayFourWeather: string;
-  dayFiveTemperature: string;
-  dayFiveWeather: string;
+  dayOne: {
+    date: string;
+    temperature: string;
+    weather: string;
+  };
+  dayTwo: {
+    date: string;
+    temperature: string;
+    weather: string;
+  };
+  dayThree: {
+    date: string;
+    temperature: string;
+    weather: string;
+  };
+  dayFour: {
+    date: string;
+    temperature: string;
+    weather: string;
+  };
+  dayFive: {
+    date: string;
+    temperature: string;
+    weather: string;
+  };
 }
 
 //inerface for error response
@@ -76,17 +91,38 @@ export default async function weatherHistoryController(
     return res.status(400).json({ error: data.message });
   }
 
+  //date of each day in the data
+  const dayOne = new Date(data.list[0].dt * 1000);
+  const dayTwo = new Date(data.list[23].dt * 1000);
+  const dayThree = new Date(data.list[47].dt * 1000);
+  const dayFour = new Date(data.list[71].dt * 1000);
+  const dayFive = new Date(data.list[95].dt * 1000);
   //each increment in array is 1 hour so 24 hours is 24 increments
   res.json({
-    dayOneTemperature: data.list[0].main.temp + "°C",
-    dayOneWeather: data.list[0].weather[0].main,
-    dayTwoTemperature: data.list[23].main.temp + "°C",
-    dayTwoWeather: data.list[23].weather[0].main,
-    dayThreeTemperature: data.list[47].main.temp + "°C",
-    dayThreeWeather: data.list[47].weather[0].main,
-    dayFourTemperature: data.list[71].main.temp + "°C",
-    dayFourWeather: data.list[71].weather[0].main,
-    dayFiveTemperature: data.list[95].main.temp + "°C",
-    dayFiveWeather: data.list[95].weather[0].main,
+    dayOne: {
+      date: dayOne.toDateString(),
+      temperature: data.list[0].main.temp + "°C",
+      weather: data.list[0].weather[0].main,
+    },
+    dayTwo: {
+      date: dayTwo.toDateString(),
+      temperature: data.list[23].main.temp + "°C",
+      weather: data.list[23].weather[0].main,
+    },
+    dayThree: {
+      date: dayThree.toDateString(),
+      temperature: data.list[47].main.temp + "°C",
+      weather: data.list[47].weather[0].main,
+    },
+    dayFour: {
+      date: dayFour.toDateString(),
+      temperature: data.list[71].main.temp + "°C",
+      weather: data.list[71].weather[0].main,
+    },
+    dayFive: {
+      date: dayFive.toDateString(),
+      temperature: data.list[95].main.temp + "°C",
+      weather: data.list[95].weather[0].main,
+    },
   });
 }
