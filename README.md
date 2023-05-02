@@ -8,7 +8,7 @@ This is a weather API utilizing OpenWeatherMap to get weather data across the gl
 
 First you must clone this repository:
 
-```http
+```
   git clone https://github.com/AdnanSilajdzic/API-Project.git
 ```
 After cloning the repository make sure to install all dependencies, by typing "npm install" in the terminal:
