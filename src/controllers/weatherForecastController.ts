@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
+import NodeCache from "node-cache";
+const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 config();
 
 //interface for incoming request
@@ -45,7 +47,7 @@ interface ErrorResponse {
 
 export default async function weatherForecastController(
   req: Request<RequestBody>,
-  res: Response<ResponseBody | ErrorResponse>
+  res: Response<ResponseBody | ErrorResponse | any>
 ) {
   //check if password is provided
   if (!req.body.password) {
@@ -67,6 +69,13 @@ export default async function weatherForecastController(
   const city = req.body.city;
   const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.API_KEY}&units=metric`;
   let data;
+
+  //check if data is cached and return it
+  const cachedData: ResponseBody | undefined = cache.get(city);
+  if (cachedData) {
+    return res.json({ cachedData, message: "Data from cache." });
+  }
+
   //fetch data from openweathermap
   try {
     const response = await fetch(url);
@@ -87,8 +96,8 @@ export default async function weatherForecastController(
   const dayFour = new Date(data.list[23].dt * 1000);
   const dayFive = new Date(data.list[31].dt * 1000);
 
-  //return temperature and weather for next 5 days
-  res.json({
+  //response data variable
+  const responseData: ResponseBody = {
     dayOne: {
       date: dayOne.toDateString(),
       temperature: data.list[0].main.temp + "°C",
@@ -114,5 +123,11 @@ export default async function weatherForecastController(
       temperature: data.list[31].main.temp + "°C",
       weather: data.list[31].weather[0].main,
     },
-  });
+  };
+
+  //cache data
+  cache.set(city, responseData);
+
+  //return temperature and weather for next 5 days
+  res.json({ responseData, message: "Data from API." });
 }

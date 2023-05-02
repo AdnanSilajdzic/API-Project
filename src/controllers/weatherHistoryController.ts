@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
+import NodeCache from "node-cache";
+const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 config();
 
 //interface for incoming request
@@ -45,7 +47,7 @@ interface ErrorResponse {
 
 export default async function weatherHistoryController(
   req: Request<RequestBody>,
-  res: Response<ResponseBody | ErrorResponse>
+  res: Response<ResponseBody | ErrorResponse | any>
 ) {
   //check if password is provided
   if (!req.body.password) {
@@ -72,6 +74,13 @@ export default async function weatherHistoryController(
   //url for fetching city coordinates from openweathermap
   const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${process.env.API_KEY}`;
   let geoData;
+
+  //check if data is cached and return it
+  const cachedData: ResponseBody | undefined = cache.get(city);
+  if (cachedData) {
+    return res.json({ cachedData, message: "Data from cache." });
+  }
+
   //fetch data from openweathermap
   try {
     const response = await fetch(geoUrl);
@@ -109,8 +118,9 @@ export default async function weatherHistoryController(
   const dayThree = new Date(data.list[47].dt * 1000);
   const dayFour = new Date(data.list[71].dt * 1000);
   const dayFive = new Date(data.list[95].dt * 1000);
-  //each increment in array is 1 hour so 24 hours is 24 increments
-  res.json({
+
+  //response data variable
+  let responseData: ResponseBody = {
     dayOne: {
       date: dayOne.toDateString(),
       temperature: data.list[0].main.temp + "°C",
@@ -136,5 +146,10 @@ export default async function weatherHistoryController(
       temperature: data.list[95].main.temp + "°C",
       weather: data.list[95].weather[0].main,
     },
-  });
+  };
+
+  //cache data
+  cache.set(city, responseData);
+  //each increment in array is 1 hour so 24 hours is 24 increments
+  res.json({ responseData, message: "Data from API." });
 }

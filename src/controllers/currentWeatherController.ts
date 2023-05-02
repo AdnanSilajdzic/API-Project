@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
+import NodeCache from "node-cache";
+const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 config();
 
 //interface for incoming request
@@ -45,6 +47,14 @@ export default async function currentWeatherController(
   const city = req.body.city;
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}&units=metric`;
   let data;
+
+  const cachedData: ResponseBody | undefined = cache.get(city);
+
+  //check if data is cached and return it
+  if (cachedData) {
+    return res.json({ cachedData, message: "Data from cache." });
+  }
+
   //fetch data from openweathermap
   try {
     const response = await fetch(url);
@@ -58,11 +68,15 @@ export default async function currentWeatherController(
     return res.status(data.cod).json({ error: data.message });
   }
 
-  //return data
-  res.json({
+  const weatherData: ResponseBody = {
     temperature: data.main.temp + "°C",
     humidity: data.main.humidity + "%",
     wind_speed: data.wind.speed + "m/s",
     weather: data.weather[0].main,
-  });
+  };
+
+  //cache data
+  cache.set(city, weatherData);
+  //return data
+  res.json({ weatherData, message: "Data from API." });
 }
