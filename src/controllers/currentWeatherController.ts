@@ -5,6 +5,7 @@ import NodeCache from "node-cache";
 const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 import { RequestBody } from "../models/RequestBody";
 import { ResponseBody } from "../models/ResponseBody";
+import Authenticate from "../middleware/authenticate";
 config();
 
 export default async function currentWeatherController(
@@ -16,10 +17,7 @@ export default async function currentWeatherController(
     return res.status(400).json({ error: "Please provide a password." });
   }
   //check if password is correct with bcrypt
-  const password = req.body.password;
-  const hashedPassword = process.env.PASSWORD;
-  const passwordCorrect = await bcrypt.compare(password, hashedPassword!);
-  if (!passwordCorrect) {
+  if ((await Authenticate(req.body.password)) === false) {
     return res.status(401).json({ error: "Incorrect password." });
   }
   //check if city is provided

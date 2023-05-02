@@ -5,6 +5,10 @@ import NodeCache from "node-cache";
 const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 import { RequestBody } from "../models/RequestBody";
 import { ResponseBody, ResponseBodyHistory } from "../models/ResponseBody";
+import Authenticate from "../middleware/authenticate";
+import unixTime from "../middleware/currentUnixTime";
+import currentUnixTime from "../middleware/currentUnixTime";
+import daysAgoUnixTime from "../middleware/daysAgoUnixTime";
 config();
 
 export default async function weatherHistoryController(
@@ -15,10 +19,8 @@ export default async function weatherHistoryController(
   if (!req.body.password) {
     return res.status(400).json({ error: "Please provide a password." });
   }
-  const password = req.body.password;
-  const hashedPassword = process.env.PASSWORD;
-  const passwordCorrect = await bcrypt.compare(password, hashedPassword!);
-  if (!passwordCorrect) {
+  //check if password is correct with bcrypt
+  if ((await Authenticate(req.body.password)) === false) {
     return res.status(401).json({ error: "Incorrect password." });
   }
   //check if city is provided
@@ -27,11 +29,6 @@ export default async function weatherHistoryController(
   }
 
   const city = req.body.city;
-  const now = new Date(); // Get the current date and time
-  const fiveDaysAgo = new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000); // Subtract 5 days in milliseconds
-
-  const nowUnixTime = Math.floor(now.getTime() / 1000); // Convert current date and time to Unix timestamp
-  const fiveDaysAgoUnixTime = Math.floor(fiveDaysAgo.getTime() / 1000); // Convert 5 days ago date and time to Unix timestamp
 
   //url for fetching city coordinates from openweathermap
   const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${process.env.API_KEY}`;
@@ -57,10 +54,12 @@ export default async function weatherHistoryController(
   const lat = geoData[0].lat;
   const lon = geoData[0].lon;
 
+  const nowUnixTime = currentUnixTime();
+  const fiveDaysAgoUnixTime = daysAgoUnixTime(5); // Convert 5 days ago date and time to Unix timestamp
+
   //url for fetching 5 day history data from openweathermap
   const url = `https://history.openweathermap.org/data/2.5/history/city?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}&start=${fiveDaysAgoUnixTime}&end=${nowUnixTime}&units=metric`;
   let data;
-  console.log(url);
   //fetch data from openweathermap
   try {
     const response = await fetch(url);

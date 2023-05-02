@@ -5,6 +5,7 @@ import NodeCache from "node-cache";
 const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
 import { ResponseBody, ResponseBodyForecast } from "../models/ResponseBody";
 import { RequestBody } from "../models/RequestBody";
+import Authenticate from "../middleware/authenticate";
 config();
 
 export default async function weatherForecastController(
@@ -15,11 +16,8 @@ export default async function weatherForecastController(
   if (!req.body.password) {
     return res.status(400).json({ error: "Please provide a password." });
   }
-  //check if password is provided
-  const password = req.body.password;
-  const hashedPassword = process.env.PASSWORD;
-  const passwordCorrect = await bcrypt.compare(password, hashedPassword!);
-  if (!passwordCorrect) {
+  //check if password is correct
+  if ((await Authenticate(req.body.password)) === false) {
     return res.status(401).json({ error: "Incorrect password." });
   }
 
