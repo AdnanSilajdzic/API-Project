@@ -1,0 +1,650 @@
+{
+	"info": {
+		"_postman_id": "661926f9-3a81-486e-a2c9-7a1d5cb9e7c6",
+		"name": "Weather API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24004929"
+	},
+	"item": [
+		{
+			"name": "Current Weather",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"city\": \"Sarajevo\",\r\n    \"password\": \"Password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/weather/current",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"weather",
+						"current"
+					]
+				},
+				"description": "A post request to this endpoint will return the current temperature, humidity, wind speed and general weather conditions of the city provided in the request body. It will also give a message confirming whether the data was returned from the third party API or if it was returned from the cache.\n\nThe request body must be a JSON file and contain a \"city\" and \"password\" field. If the password is incorrect, only an error message will be returned."
+			},
+			"response": [
+				{
+					"name": "Wrong password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"Sarajevo\",\r\n    \"password\": \"wrongPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"current"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "31"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1f-6ZItAWFlS7tSV0IbMYEm0czk2Vc\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 17:31:40 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Incorrect password.\"\n}"
+				},
+				{
+					"name": "City does not exist",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"Software Engineering Land\",\r\n    \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"current"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "26"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1a-vvGTCbxZkK6c5/lT8+HcPLg6b6Q\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 17:32:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"city not found\"\n}"
+				},
+				{
+					"name": "Sarajevo",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"Sarajevo\",\r\n    \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"current"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "129"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"81-pnI/pCxPF0nDZ3Mp3P84EkmDlmU\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 17:32:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"cachedData\": {\n        \"temperature\": \"15.51°C\",\n        \"humidity\": \"72%\",\n        \"wind_speed\": \"1.54m/s\",\n        \"weather\": \"Clouds\"\n    },\n    \"message\": \"Data from cache.\"\n}"
+				},
+				{
+					"name": "Hong Kong",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"Hong Kong\",\r\n    \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"current"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "128"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"80-1qdBfGBjOdIp9N5eIYOIJuxnp1w\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 17:33:45 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"weatherData\": {\n        \"temperature\": \"24.78°C\",\n        \"humidity\": \"84%\",\n        \"wind_speed\": \"5.36m/s\",\n        \"weather\": \"Clouds\"\n    },\n    \"message\": \"Data from API.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Forecast Weather",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"city\": \"Sarajevo\",\r\n    \"password\": \"Password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/weather/forecast",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"weather",
+						"forecast"
+					]
+				},
+				"description": "This API endpoint returns the weather forecast for the next five days for a city. The weather forecast includes the temperature and general weather condition. It also includes the dates.\n\nAs input, it takes a \"city\" and \"password\" paramater just like every endpoint in this API."
+			},
+			"response": [
+				{
+					"name": "Berlin",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"Berlin\",\r\n    \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/forecast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"forecast"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "444"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1bc-iq/vVIz+IGGRVXbHrkEKeCFNphI\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 17:36:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseData\": {\n        \"dayOne\": {\n            \"date\": \"Tue May 02 2023\",\n            \"temperature\": \"11.53°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayTwo\": {\n            \"date\": \"Wed May 03 2023\",\n            \"temperature\": \"14.71°C\",\n            \"weather\": \"Clear\"\n        },\n        \"dayThree\": {\n            \"date\": \"Thu May 04 2023\",\n            \"temperature\": \"17.57°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayFour\": {\n            \"date\": \"Fri May 05 2023\",\n            \"temperature\": \"16.99°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayFive\": {\n            \"date\": \"Sat May 06 2023\",\n            \"temperature\": \"7°C\",\n            \"weather\": \"Clouds\"\n        }\n    },\n    \"message\": \"Data from API.\"\n}"
+				},
+				{
+					"name": "Sarajevo",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"Sarajevo\",\r\n    \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/forecast",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"forecast"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "443"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1bb-KdoUfP/bkw2R1YbpLfnDew7IBPU\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 18:49:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseData\": {\n        \"dayOne\": {\n            \"date\": \"Tue May 02 2023\",\n            \"temperature\": \"13.69°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayTwo\": {\n            \"date\": \"Wed May 03 2023\",\n            \"temperature\": \"10.33°C\",\n            \"weather\": \"Rain\"\n        },\n        \"dayThree\": {\n            \"date\": \"Thu May 04 2023\",\n            \"temperature\": \"10.65°C\",\n            \"weather\": \"Rain\"\n        },\n        \"dayFour\": {\n            \"date\": \"Fri May 05 2023\",\n            \"temperature\": \"12.83°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayFive\": {\n            \"date\": \"Sat May 06 2023\",\n            \"temperature\": \"14.26°C\",\n            \"weather\": \"Rain\"\n        }\n    },\n    \"message\": \"Data from API.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Weather History",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"city\": \"Sarajevo\",\r\n    \"password\": \"Password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/weather/history",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"weather",
+						"history"
+					]
+				},
+				"description": "This API enpoint will return a 5 day weather history of a certain city. Similarly to the forecast endpoint, the response contains the temperature and general weather conditions as well as a date."
+			},
+			"response": [
+				{
+					"name": "Sarajevo",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"Sarajevo\",\r\n    \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/history",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"history"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "448"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1c0-5hbRRUN7soBNeYQjqZdOwRi+VpM\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 18:54:18 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseData\": {\n        \"dayOne\": {\n            \"date\": \"Thu Apr 27 2023\",\n            \"temperature\": \"10.95°C\",\n            \"weather\": \"Clear\"\n        },\n        \"dayTwo\": {\n            \"date\": \"Fri Apr 28 2023\",\n            \"temperature\": \"15.95°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayThree\": {\n            \"date\": \"Sat Apr 29 2023\",\n            \"temperature\": \"16.95°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayFour\": {\n            \"date\": \"Sun Apr 30 2023\",\n            \"temperature\": \"11.62°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayFive\": {\n            \"date\": \"Mon May 01 2023\",\n            \"temperature\": \"17.95°C\",\n            \"weather\": \"Clouds\"\n        }\n    },\n    \"message\": \"Data from API.\"\n}"
+				},
+				{
+					"name": "New York",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"city\": \"New York\",\r\n    \"password\": \"Password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/weather/history",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"weather",
+								"history"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "445"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1bd-z2Y9dz0/dNo9EYs9ZKFML6m+cT4\""
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 02 May 2023 19:04:01 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseData\": {\n        \"dayOne\": {\n            \"date\": \"Thu Apr 27 2023\",\n            \"temperature\": \"13.53°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayTwo\": {\n            \"date\": \"Fri Apr 28 2023\",\n            \"temperature\": \"11.97°C\",\n            \"weather\": \"Clouds\"\n        },\n        \"dayThree\": {\n            \"date\": \"Sat Apr 29 2023\",\n            \"temperature\": \"11.16°C\",\n            \"weather\": \"Rain\"\n        },\n        \"dayFour\": {\n            \"date\": \"Sun Apr 30 2023\",\n            \"temperature\": \"13.56°C\",\n            \"weather\": \"Rain\"\n        },\n        \"dayFive\": {\n            \"date\": \"Mon May 01 2023\",\n            \"temperature\": \"15.55°C\",\n            \"weather\": \"Clouds\"\n        }\n    },\n    \"message\": \"Data from API.\"\n}"
+				}
+			]
+		}
+	]
+}
