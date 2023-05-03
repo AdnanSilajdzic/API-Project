@@ -33,6 +33,8 @@ app.use((req, res, next) => {
 
 app.use("/api/weather", weatherRoutes);
 
+app.use(cors());
+
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
 });

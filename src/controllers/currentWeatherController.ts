@@ -9,7 +9,7 @@ import Authenticate from "../middleware/authenticate";
 config();
 
 export default async function currentWeatherController(
-  req: Request<{}, {}, RequestBody>,
+  req: Request<RequestBody>,
   res: Response<ResponseBody | any>
 ) {
   //check if password is provided
@@ -29,9 +29,8 @@ export default async function currentWeatherController(
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}&units=metric`;
   let data;
 
-  const cachedData: ResponseBody | undefined = cache.get(city);
-
   //check if data is cached and return it
+  const cachedData: ResponseBody | undefined = cache.get(city);
   if (cachedData) {
     return res.json({ cachedData, message: "Data from cache." });
   }
