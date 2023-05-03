@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import mongoose from "mongoose";
 import cors from "cors";
 import weatherRoutes from "./routes/weatherRoutes";
 import winston from "winston";
