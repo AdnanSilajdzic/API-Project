@@ -37,7 +37,11 @@ There are three API endpoints, but all three require the same parameters. They o
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `city` | `string` | **Required**. The city for which you want weather information |
-| `password` | `string` | **Required**. The non-encrypted version of the password in the .env file |
+
+An authorization header is also required. This authorization header must include a correct password in order to make requests. It must be formatted like this:
+```
+  Bearer [PASSWORD]
+```
 
 ## Swagger documentation
 Swagger documentation can be accessed by going to the browser while the server is running and going to 
@@ -46,7 +50,7 @@ Swagger documentation can be accessed by going to the browser while the server i
 ```
 
 ## Postman collection
-The postman collection is located inside of the repository in a file named Weather API.postman_collection.json
+The postman collection is located inside of the repository in a file named Updated_Postman_Collection.json
 
 ## Logging
 This API logs requests and logs can be found in the logs.log file
