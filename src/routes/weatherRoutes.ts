@@ -37,6 +37,12 @@ router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *     consumes:
  *       - application/json
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer password
+ *         required: true
+ *         type: string
+ *         example: Bearer Password123
  *       - in: body
  *         name: request
  *         description: Request body
@@ -47,9 +53,6 @@ router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *             city:
  *               type: string
  *               example: Sarajevo
- *             password:
- *               type: string
- *               example: Password123
  *     responses:
  *       '200':
  *         description: A successful response
@@ -68,6 +71,12 @@ router.post("/current", Authenticate, currentWeatherController);
  *     consumes:
  *       - application/json
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer password
+ *         required: true
+ *         type: string
+ *         example: Bearer Password123
  *       - in: body
  *         name: request
  *         description: Request body
@@ -78,9 +87,6 @@ router.post("/current", Authenticate, currentWeatherController);
  *             city:
  *               type: string
  *               example: Sarajevo
- *             password:
- *               type: string
- *               example: Password123
  *     responses:
  *       '200':
  *         description: A successful response
@@ -99,6 +105,12 @@ router.post("/forecast", Authenticate, weatherForecastController);
  *     consumes:
  *       - application/json
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer password
+ *         required: true
+ *         type: string
+ *         example: Bearer Password123
  *       - in: body
  *         name: request
  *         description: Request body
@@ -109,9 +121,6 @@ router.post("/forecast", Authenticate, weatherForecastController);
  *             city:
  *               type: string
  *               example: Sarajevo
- *             password:
- *               type: string
- *               example: Password123
  *     responses:
  *       '200':
  *         description: A successful response
