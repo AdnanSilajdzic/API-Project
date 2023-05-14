@@ -1,4 +1,4 @@
-import { ResponseBodyForecast } from "../models/ResponseBody";
+import { ResponseBodyForecast } from "../interfaces/ResponseBody";
 
 export default function weatherForecastResponse(data: any) {
   //date of each day incremented by 8 because data is provided for every 3 hours and 3*8=24

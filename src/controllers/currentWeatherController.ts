@@ -3,23 +3,14 @@ import { config } from "dotenv";
 import bcrypt from "bcrypt";
 import NodeCache from "node-cache";
 const cache = new NodeCache({ stdTTL: 300, checkperiod: 600 });
-import { RequestBody } from "../models/RequestBody";
-import { ResponseBody } from "../models/ResponseBody";
-import Authenticate from "../middleware/authenticate";
+import { RequestBody } from "../interfaces/RequestBody";
+import { ResponseBody } from "../interfaces/ResponseBody";
 config();
 
 export default async function currentWeatherController(
   req: Request<RequestBody>,
   res: Response<ResponseBody | any>
 ) {
-  //check if password is provided
-  if (!req.body.password) {
-    return res.status(400).json({ error: "Please provide a password." });
-  }
-  //check if password is correct with bcrypt
-  if ((await Authenticate(req.body.password)) === false) {
-    return res.status(401).json({ error: "Incorrect password." });
-  }
   //check if city is provided
   if (!req.body.city) {
     return res.status(400).json({ error: "Please provide a city name." });

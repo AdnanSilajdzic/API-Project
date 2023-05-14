@@ -3,6 +3,7 @@ import currentWeatherController from "../controllers/currentWeatherController";
 import weatherForecastController from "../controllers/weatherForecastController";
 import weatherHistoryController from "../controllers/weatherHistoryController";
 import swaggerJsdoc from "swagger-jsdoc";
+import Authenticate from "../middleware/Authenticate";
 import swaggerUi from "swagger-ui-express";
 
 const router = express.Router();
@@ -57,7 +58,7 @@ router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *       '500':
  *         description: Internal server error
  */
-router.post("/current", currentWeatherController);
+router.post("/current", Authenticate, currentWeatherController);
 
 /**
  * @swagger
@@ -88,7 +89,7 @@ router.post("/current", currentWeatherController);
  *       '500':
  *         description: Internal server error
  */
-router.post("/forecast", weatherForecastController);
+router.post("/forecast", Authenticate, weatherForecastController);
 
 /**
  * @swagger
@@ -119,6 +120,6 @@ router.post("/forecast", weatherForecastController);
  *       '500':
  *         description: Internal server error
  */
-router.post("/history", weatherHistoryController);
+router.post("/history", Authenticate, weatherHistoryController);
 
 export default router;
