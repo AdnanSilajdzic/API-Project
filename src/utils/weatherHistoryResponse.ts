@@ -1,4 +1,4 @@
-import { ResponseBody, ResponseBodyHistory } from "../models/ResponseBody";
+import { ResponseBody, ResponseBodyHistory } from "../interfaces/ResponseBody";
 export default function historyResponseBody(data: any) {
   //date of each day in the data
   const dayOne = new Date(data.list[0].dt * 1000);

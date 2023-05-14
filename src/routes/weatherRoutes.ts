@@ -3,6 +3,7 @@ import currentWeatherController from "../controllers/currentWeatherController";
 import weatherForecastController from "../controllers/weatherForecastController";
 import weatherHistoryController from "../controllers/weatherHistoryController";
 import swaggerJsdoc from "swagger-jsdoc";
+import Authenticate from "../middleware/Authenticate";
 import swaggerUi from "swagger-ui-express";
 
 const router = express.Router();
@@ -36,6 +37,12 @@ router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *     consumes:
  *       - application/json
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer password
+ *         required: true
+ *         type: string
+ *         example: Bearer Password123
  *       - in: body
  *         name: request
  *         description: Request body
@@ -46,9 +53,6 @@ router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *             city:
  *               type: string
  *               example: Sarajevo
- *             password:
- *               type: string
- *               example: Password123
  *     responses:
  *       '200':
  *         description: A successful response
@@ -57,7 +61,7 @@ router.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *       '500':
  *         description: Internal server error
  */
-router.post("/current", currentWeatherController);
+router.post("/current", Authenticate, currentWeatherController);
 
 /**
  * @swagger
@@ -67,6 +71,12 @@ router.post("/current", currentWeatherController);
  *     consumes:
  *       - application/json
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer password
+ *         required: true
+ *         type: string
+ *         example: Bearer Password123
  *       - in: body
  *         name: request
  *         description: Request body
@@ -77,9 +87,6 @@ router.post("/current", currentWeatherController);
  *             city:
  *               type: string
  *               example: Sarajevo
- *             password:
- *               type: string
- *               example: Password123
  *     responses:
  *       '200':
  *         description: A successful response
@@ -88,7 +95,7 @@ router.post("/current", currentWeatherController);
  *       '500':
  *         description: Internal server error
  */
-router.post("/forecast", weatherForecastController);
+router.post("/forecast", Authenticate, weatherForecastController);
 
 /**
  * @swagger
@@ -98,6 +105,12 @@ router.post("/forecast", weatherForecastController);
  *     consumes:
  *       - application/json
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer password
+ *         required: true
+ *         type: string
+ *         example: Bearer Password123
  *       - in: body
  *         name: request
  *         description: Request body
@@ -108,9 +121,6 @@ router.post("/forecast", weatherForecastController);
  *             city:
  *               type: string
  *               example: Sarajevo
- *             password:
- *               type: string
- *               example: Password123
  *     responses:
  *       '200':
  *         description: A successful response
@@ -119,6 +129,6 @@ router.post("/forecast", weatherForecastController);
  *       '500':
  *         description: Internal server error
  */
-router.post("/history", weatherHistoryController);
+router.post("/history", Authenticate, weatherHistoryController);
 
 export default router;

@@ -1,9 +1,29 @@
+import { Request, Response, NextFunction, RequestHandler } from "express";
+import { config } from "dotenv";
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+config();
 
-//export function that checks if password is correct with bcrypt and returns a boolean and takes string as argument
-export default async function Authenticate(password: string) {
-  const hashedPassword = process.env.PASSWORD;
-  const passwordCorrect = await bcrypt.compare(password, hashedPassword!);
-  return passwordCorrect;
+export default function Authenticate(
+  req: any,
+  res: Response,
+  next: NextFunction
+) {
+  const authHeader = req.headers.authorization;
+  const TruePassword = process.env.PASSWORD;
+
+  if (!authHeader) {
+    return res.status(401).json({ message: "Authorization header missing" });
+  }
+
+  const [bearer, password] = authHeader.split(" ");
+
+  if (bearer !== "Bearer" || !password) {
+    return res.status(401).json({ message: "Invalid Authorization header" });
+  }
+
+  if (bcrypt.compareSync(password, TruePassword!)) {
+    next(); // call the next middleware function
+  } else {
+    return res.status(401).json({ message: "Invalid password" });
+  }
 }

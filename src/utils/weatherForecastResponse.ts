@@ -1,6 +1,10 @@
-import { ResponseBodyForecast } from "../models/ResponseBody";
+import { ResponseBodyForecast } from "../interfaces/ResponseBody";
 
 export default function weatherForecastResponse(data: any) {
+  if (data.cod != "200") {
+    throw new Error("City not found.");
+  }
+
   //date of each day incremented by 8 because data is provided for every 3 hours and 3*8=24
   const dayOne = new Date(data.list[0].dt * 1000);
   const dayTwo = new Date(data.list[7].dt * 1000);
